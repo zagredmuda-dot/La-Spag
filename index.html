@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="La Spag – Fresh, quality groceries delivered to your doorstep in Lagos. Affordable, locally sourced everyday essentials for Nigerian families." />
+  <title>La Spag – Quality Groceries Delivered in Lagos</title>
+
+  <!-- ═══ FONTS ═══ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- ═══ FONT AWESOME 6.5 – solid + brands (CDN, no API key needed) ═══ -->
+  <!-- <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Ve govlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN TOKENS — TOMATO RED PALETTE
+       Inspired by the deep, rich tomato-sauce base of Nigerian stir-fry
+    ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --red-deep:    #7a1010;   /* slow-cooked stew depth           */
+      --red-mid:     #b91c1c;   /* main brand tomato red            */
+      --red-bright:  #dc2626;   /* vivid fresh-tomato accent        */
+      --red-glow:    #ef4444;   /* hover / highlight                */
+
+      --gold:        #d97706;   /* palm oil warmth                  */
+      --gold-light:  #f59e0b;   /* spice & sunshine accent          */
+
+      --cream:       #fef8f5;   /* warm white with a faint blush    */
+      --sand:        #f5e9e2;   /* parchment card background        */
+      --sand-dark:   #eeddd4;   /* dividers & borders               */
+
+      --charcoal:    #1a1a1a;
+      --text-body:   #3c2a2a;   /* warm earthy brown                */
+      --text-muted:  #8a6060;
+
+      --white:       #ffffff;
+      --shadow-sm:   0 4px 20px rgba(122,16,16,0.10);
+      --shadow-md:   0 8px 40px rgba(122,16,16,0.13);
+      --shadow-lg:   0 20px 60px rgba(122,16,16,0.18);
+      --transition:  0.35s cubic-bezier(0.25,0.8,0.25,1);
+      --radius:      14px;
+      --nav-h:       72px;
+    }
+
+    /* ── Reset ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; font-size: 16px; }
+    body  { font-family: 'DM Sans', sans-serif; color: var(--text-body); background: var(--cream); overflow-x: hidden; }
+    img   { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a     { text-decoration: none; color: inherit; }
+    ul    { list-style: none; }
+    section { padding: 96px 0; }
+    .container { width: min(90%, 1200px); margin: 0 auto; }
+
+    /* ── Shared type helpers ──────────────────────────────────── */
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--red-mid); background: rgba(185,28,28,0.10);
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 18px;
+    }
+    .section-tag-light { color: var(--gold-light); background: rgba(245,158,11,0.18); }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem,4vw,3rem);
+      color: var(--charcoal); line-height: 1.18; margin-bottom: 16px;
+    }
+    .section-title-light { color: var(--white); }
+    .section-subtitle { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 560px; }
+
+    /* ── Scroll reveal ────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════════════════════ */
+    #navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      height: var(--nav-h); z-index: 1000;
+      background: transparent;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(122,16,16,0.97);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 2px 28px rgba(0,0,0,0.25);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+
+    /* Logo */
+    .nav-logo { 
+      display: flex; 
+      align-items: center;
+       gap: 12px; 
+      }
+    .nav-logo-img {
+      width: 44px; 
+      height: 44px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.25);
+    }
+    .nav-logo-img img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* ===== ADD YOUR LOGO: replace src="" in the HTML below ===== */
+    .nav-logo-text { 
+      font-family: 'Playfair Display', serif;
+       font-size: 1.4rem; font-weight: 900; 
+       color: var(--white); 
+       letter-spacing: -.01em; 
+      }
+    .nav-logo-text span { color: var(--gold-light); }
+
+    /* Desktop nav */
+    .nav-links { display: flex; gap: 30px; align-items: center; }
+    .nav-links a { font-size: 0.92rem; font-weight: 500; color: rgba(255,255,255,.88); position: relative; transition: color var(--transition); }
+    .nav-links a::after { content:''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gold-light); transition: width var(--transition); }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      display: inline-flex !important; align-items: center; gap: 7px;
+      background: var(--gold) !important; color: var(--white) !important;
+      padding: 10px 22px; border-radius: 100px; font-weight: 600 !important;
+      transition: background var(--transition), transform var(--transition) !important;
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-2px); }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; background: none; border: none; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--white); border-radius: 4px; transition: var(--transition); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none; position: fixed; top: var(--nav-h); left: 0; width: 100%;
+      background: rgba(122,16,16,0.98); backdrop-filter: blur(14px);
+      padding: 28px 0 36px; flex-direction: column; z-index: 999;
+      opacity: 0; pointer-events: none; transform: translateY(-20px);
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .mobile-menu.open { display: flex; opacity: 1; transform: translateY(0); pointer-events: all; }
+    .mobile-menu a {
+      color: rgba(255,255,255,.9); font-size: 1.05rem; font-weight: 500;
+      padding: 14px 32px; display: flex; align-items: center; gap: 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08); transition: background var(--transition);
+    }
+    .mobile-menu a i { width: 18px; color: var(--gold-light); }
+    .mobile-menu a:hover { background: rgba(255,255,255,.06); }
+
+    /* ═══════════════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════════════ */
+    #home { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+
+    .hero-bg { position: absolute; inset: 0; z-index: 0; background: var(--red-deep); }
+    /* ===== ADD HERO IMAGE: replace src="" below ===== */
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(122,16,16,.90) 0%, rgba(185,28,28,.65) 52%, rgba(217,119,6,.28) 100%);
+    }
+
+    .hero-deco {
+      position: absolute; top: -120px; right: -120px;
+      width: 560px; height: 560px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.07); z-index: 1; pointer-events: none;
+    }
+    .hero-deco::before { content:''; position: absolute; inset: 60px; border-radius: 50%; border: 2px solid rgba(255,255,255,.05); }
+
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.14); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.28); color: var(--white);
+      font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      padding: 7px 18px; border-radius: 100px; margin-bottom: 28px;
+      animation: fadeUp .7s ease both;
+    }
+    .hero-badge i { color: var(--gold-light); }
+
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.4rem); font-weight: 900;
+      color: var(--white); line-height: 1.1; margin-bottom: 22px;
+      animation: fadeUp .8s ease .15s both;
+    }
+    .hero-headline .accent { color: var(--gold-light); }
+
+    .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,.87); line-height: 1.75; margin-bottom: 40px; animation: fadeUp .8s ease .3s both; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp .8s ease .45s both; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--red-mid); color: var(--white); font-weight: 600; font-size: .97rem;
+      padding: 16px 32px; border-radius: 100px;
+      box-shadow: 0 8px 28px rgba(185,28,28,.45);
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary:hover { background: var(--red-bright); transform: translateY(-3px); box-shadow: 0 14px 36px rgba(220,38,38,.50); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent; color: var(--white); font-weight: 600; font-size: .97rem;
+      padding: 15px 30px; border-radius: 100px; border: 2px solid rgba(255,255,255,.50);
+      transition: border-color var(--transition), background var(--transition), transform var(--transition);
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.10); transform: translateY(-3px); }
+
+    /* Stats bar */
+    .hero-stats { position: absolute; bottom: 48px; left: 0; right: 0; z-index: 1; animation: fadeUp .9s ease .6s both; }
+    .hero-stats-inner {
+      display: flex;
+      background: rgba(255,255,255,.12); backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,.22); border-radius: var(--radius);
+      overflow: hidden; width: fit-content;
+    }
+    .stat-item { padding: 18px 36px; border-right: 1px solid rgba(255,255,255,.15); text-align: center; }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .stat-label { font-size: .70rem; color: rgba(255,255,255,.72); letter-spacing: .09em; text-transform: uppercase; margin-top: 4px; }
+
+    /* ═══════════════════════════════════════════════════════════
+       MARQUEE STRIP
+    ═══════════════════════════════════════════════════════════ */
+    .marquee-strip { background: var(--red-mid); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .marquee-track { display: inline-flex; animation: marquee 28s linear infinite; }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: .80rem; font-weight: 600; letter-spacing: .10em; text-transform: uppercase;
+      color: var(--white); padding: 0 36px;
+    }
+    .marquee-item i { color: rgba(255,255,255,.58); font-size: .85rem; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ═══════════════════════════════════════════════════════════
+       PRODUCTS
+    ═══════════════════════════════════════════════════════════ */
+    #products { background: var(--white); }
+    .products-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; flex-wrap: wrap; gap: 24px; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 28px; }
+
+    .product-card {
+      background: var(--cream); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow-md);
+      border: 1px solid var(--sand-dark);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex; flex-direction: column;
+    }
+    .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+
+    .product-img-wrap {
+       position: relative;
+       height: 300px;
+       background: var(--sand);
+       overflow: hidden;
+       flex-shrink: 0;
+        }
+
+    /* ===== ADD EACH PRODUCT IMAGE: replace src="" in each card below ===== */
+    .product-img-wrap img { 
+      transition: transform .6s ease; 
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-card:hover .product-img-wrap img { transform: scale(1.07); }
+
+    .product-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--red-deep); color: var(--white);
+      font-size: .67rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 100px; display: flex; align-items: center; gap: 4px;
+    }
+
+    .product-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+    .product-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--charcoal); margin-bottom: 8px; }
+    .product-desc { font-size: .84rem; color: var(--text-muted); line-height: 1.6; flex: 1; margin-bottom: 16px; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .product-price { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--red-mid); }
+    .product-price span { font-family: 'DM Sans', sans-serif; font-size: .74rem; color: var(--text-muted); font-weight: 400; display: block; }
+
+    .btn-whatsapp {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #25D366; color: var(--white); font-size: .80rem; font-weight: 600;
+      padding: 10px 16px; border-radius: 100px; white-space: nowrap;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-whatsapp:hover { background: #1da955; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,.38); }
+    .btn-whatsapp i { font-size: 1rem; }
+
+    /* ═══════════════════════════════════════════════════════════
+       ABOUT
+    ═══════════════════════════════════════════════════════════ */
+    #about { background: var(--red-deep); position: relative; overflow: hidden; }
+    #about::before { content:''; position: absolute; top: -200px; right: -200px; width: 680px; height: 680px; border-radius: 50%; background: rgba(255,255,255,.025); pointer-events: none; }
+    #about::after  { content:''; position: absolute; bottom: -180px; left: -180px; width: 500px; height: 500px; border-radius: 50%; background: rgba(217,119,6,.07); pointer-events: none; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; z-index: 1; }
+    .about-img-block { position: relative; }
+    .about-main-img { width: 100%; height: 450px; border-radius: var(--radius); overflow: hidden; background: rgba(255,255,255,.07); }
+    /* ===== ADD ABOUT IMAGE: replace src="" below ===== */
+    .about-accent-img { position: absolute; bottom: -28px; right: -28px; width: 180px; height: 180px; border-radius: var(--radius); overflow: hidden; border: 5px solid var(--red-deep); background: rgba(255,255,255,.08); }
+    .about-badge-card { position: absolute; top: -20px; left: -20px; background: var(--gold); color: var(--white); border-radius: 12px; padding: 18px 22px; text-align: center; box-shadow: 0 8px 28px rgba(217,119,6,.50); }
+    .about-badge-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; line-height: 1; }
+    .about-badge-text { font-size: .67rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .88; margin-top: 4px; }
+
+    .about-body { color: rgba(255,255,255,.80); font-size: 1rem; line-height: 1.82; margin-bottom: 28px; }
+    .about-values { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .value-item { display: flex; align-items: flex-start; gap: 12px; }
+    .value-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,.10); display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 1.1rem; flex-shrink: 0; }
+    .value-text strong { display: block; color: var(--white); font-size: .88rem; margin-bottom: 3px; }
+    .value-text p { color: rgba(255,255,255,.58); font-size: .79rem; line-height: 1.5; }
+
+    /* ═══════════════════════════════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════════════════════════════ */
+    #contact { background: var(--sand); }
+    .contact-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
+
+    .contact-card { background: var(--white); border-radius: var(--radius); padding: 40px; box-shadow: var(--shadow-md); border: 1px solid var(--sand-dark); }
+    .contact-card-title {
+      font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--charcoal);
+      margin-bottom: 32px; display: flex; align-items: center; gap: 12px;
+    }
+    .contact-card-title i { color: var(--red-mid); font-size: 1.2rem; }
+
+    /* Each contact row */
+    .contact-row { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+    .c-icon {
+      width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px;
+      background: var(--red-mid); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem; box-shadow: 0 4px 14px rgba(185,28,28,.28);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .contact-row:hover .c-icon { background: var(--red-bright); transform: scale(1.08); }
+    .c-info { flex: 1; }
+    .c-info strong { display: block; font-size: .73rem; text-transform: uppercase; letter-spacing: .11em; color: var(--text-muted); margin-bottom: 4px; }
+    .c-info p, .c-info a { color: var(--charcoal); font-size: .96rem; line-height: 1.55; }
+    .c-info a:hover { color: var(--red-mid); }
+    .c-divider { height: 1px; background: var(--sand-dark); margin: 4px 0 16px; }
+
+    /* Inline WhatsApp link inside contact rows */
+    .wa-inline {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: #16a34a; font-weight: 600; font-size: .88rem;
+      transition: opacity var(--transition);
+    }
+    .wa-inline:hover { opacity: .80; }
+
+    /* Map placeholder */
+    .map-placeholder {
+      border-radius: var(--radius); overflow: hidden; height: 240px;
+      background: var(--sand); border: 2px dashed rgba(185,28,28,.20);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--text-muted); gap: 10px; margin-top: 28px;
+    }
+    .map-placeholder i { font-size: 2.8rem; color: var(--red-bright); }
+    .map-placeholder p { font-size: .84rem; font-weight: 500; }
+
+    /* Social row inside contact card */
+    .contact-socials { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--sand-dark); }
+    .contact-socials-label { font-size: .74rem; font-weight: 600; text-transform: uppercase; letter-spacing: .11em; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+    .contact-socials-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .cs-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 16px; border-radius: 100px; font-size: .80rem; font-weight: 600;
+      color: var(--white); transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+    }
+    .cs-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.22); }
+    .cs-ig  { background: radial-gradient(circle at 30% 110%, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .cs-tt  { background: #010101; }
+    .cs-fb  { background: #1877f2; }
+    .cs-tw  { background: #000000; }
+    .cs-li  { background: #0a66c2; }
+    .cs-yt  { background: #ff0000; }
+
+    /* Hours card */
+    .hours-card { background: var(--white); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow-md); border: 1px solid var(--sand-dark); }
+    .hours-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--charcoal); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+    .hours-title i { color: var(--red-mid); }
+    .hours-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--sand); font-size: .89rem; }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row .day { color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    .hours-row .day i { color: var(--red-bright); width: 14px; }
+    .hours-row .time { font-weight: 600; color: var(--charcoal); }
+    .open-tag { font-size: .66rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #16a34a; background: rgba(22,163,74,.10); padding: 3px 10px; border-radius: 100px; }
+
+    /* WhatsApp CTA block */
+    .wa-cta-block { background: var(--red-deep); border-radius: var(--radius); padding: 32px; margin-top: 24px; text-align: center; }
+    .wa-cta-block .wa-icon-big { font-size: 2.2rem; color: #25D366; display: block; margin-bottom: 10px; }
+    .wa-cta-block p { color: rgba(255,255,255,.82); font-size: .88rem; margin-bottom: 20px; line-height: 1.65; }
+    .wa-cta-block .btn-whatsapp { font-size: .9rem; padding: 13px 26px; }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════════ */
+    footer { background: #140404; padding: 72px 0 32px; }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+
+    .footer-logo-img { width: 52px; height: 52px; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.08); margin-bottom: 16px; border: 2px solid rgba(255,255,255,.12); }
+    .footer-logo-img img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* ===== ADD LOGO: replace src="" below ===== */
+    .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 900; color: var(--white); display: block; margin-bottom: 14px; }
+    .footer-brand-name span { color: var(--gold-light); }
+    .footer-brand p { color: rgba(255,255,255,.50); font-size: .88rem; line-height: 1.78; margin-bottom: 24px; }
+
+    /* Social icons */
+    .social-row { display: flex; gap: 9px; flex-wrap: wrap; }
+    .soc {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--white);
+      transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+    }
+    .soc:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,.35); opacity: .9; }
+    .soc-ig { background: radial-gradient(circle at 30% 110%, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .soc-tt { background: #010101; border: 1px solid rgba(255,255,255,.10); }
+    .soc-fb { background: #1877f2; }
+    .soc-tw { background: #000000; border: 1px solid rgba(255,255,255,.10); }
+    .soc-li { background: #0a66c2; }
+    .soc-yt { background: #ff0000; }
+    .soc-wa { background: #25D366; }
+
+    /* Footer nav columns */
+    .footer-col h4 {
+      font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 20px;
+      padding-bottom: 10px; border-bottom: 2px solid var(--red-mid); display: inline-block;
+    }
+    .footer-col ul li { margin-bottom: 11px; }
+    .footer-col ul a { color: rgba(255,255,255,.48); font-size: .88rem; display: flex; align-items: center; gap: 8px; transition: color var(--transition), padding-left var(--transition); }
+    .footer-col ul a i { font-size: .75rem; color: var(--red-bright); width: 12px; flex-shrink: 0; }
+    .footer-col ul a:hover { color: var(--gold-light); padding-left: 4px; }
+
+    /* Contact column in footer */
+    .f-contact-item { display: flex; align-items: flex-start; gap: 11px; margin-bottom: 13px; }
+    .f-contact-item i { color: var(--red-bright); font-size: .95rem; width: 16px; margin-top: 2px; flex-shrink: 0; }
+    .f-contact-item a, .f-contact-item span { color: rgba(255,255,255,.50); font-size: .87rem; line-height: 1.55; transition: color var(--transition); }
+    .f-contact-item a:hover { color: var(--gold-light); }
+
+    /* Footer bottom bar */
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.07); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { color: rgba(255,255,255,.30); font-size: .80rem; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: rgba(255,255,255,.42); font-size: .80rem; transition: color var(--transition); }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    /* ═══════════════════════════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════════════════════════ */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 960px) {
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-img-block { display: block; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 72px 0; }
+      .nav-links { display: none; } .hamburger { display: flex; }
+      .hero-headline { font-size: 2.2rem; } .hero-sub { font-size: .96rem; }
+      .hero-stats { display: none; }
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .about-values { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; text-align: center; } .footer-links { justify-content: center; }
+    }
+    @media (max-width: 400px) { .products-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════════════════════════ -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container nav-inner">
+
+    <a href="#home" class="nav-logo" aria-label="NaijaFresh – go to homepage">
+      <div class="nav-logo-img">
+        <!-- ===== REPLACE src="" WITH YOUR LOGO IMAGE URL ===== -->
+        <img src="Images/La-spag-Logo.jpg" alt="La Spag Logo" />
+      </div>
+      <span class="nav-logo-text">La<span>Spag</span></span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#home"><i class="fas fa-house" style="margin-right:5px;font-size:.78rem;"></i>Home</a></li>
+      <li><a href="#products"><i class="fas fa-basket-shopping" style="margin-right:5px;font-size:.78rem;"></i>Products</a></li>
+      <li><a href="#about"><i class="fas fa-store" style="margin-right:5px;font-size:.78rem;"></i>About</a></li>
+      <li><a href="#contact"><i class="fas fa-phone" style="margin-right:5px;font-size:.78rem;"></i>Contact</a></li>
+      <!-- ===== REPLACE +234XXXXXXXXXX with your WhatsApp number throughout this file ===== -->
+      <li><a href="https://wa.me/+2348109004517?text=Hello!%20I%27d%20like%20to%20place%20an%20order."
+             class="nav-cta" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i> Order Now
+      </a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu" role="menu">
+    <a href="#home"     role="menuitem"><i class="fas fa-house"></i>Home</a>
+    <a href="#products" role="menuitem"><i class="fas fa-basket-shopping"></i>Products</a>
+    <a href="#about"    role="menuitem"><i class="fas fa-store"></i>About Us</a>
+    <a href="#contact"  role="menuitem"><i class="fas fa-phone"></i>Contact</a>
+    <a href="https://wa.me/+2348109004517?text=Hello!%20I%27d%20like%20to%20place%20an%20order."
+       target="_blank" rel="noopener noreferrer" role="menuitem">
+      <i class="fab fa-whatsapp"></i>Order on WhatsApp
+    </a>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════════ -->
+<section id="home" aria-label="Welcome to NaijaFresh">
+
+  <div class="hero-bg" aria-hidden="true">
+    <!-- ===== REPLACE src="" WITH YOUR HERO BACKGROUND IMAGE =====
+         Best choice: vibrant Nigerian stir-fry, rich tomato stew, or
+         colourful market spread of fresh groceries                  -->
+    <img src="Images/background.jpg" alt="Fresh, vibrant Nigerian groceries and ingredients" />
+  </div>
+
+  <div class="hero-deco" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-fire-flame-curved"></i>
+        Locally Sourced &middot; Always Fresh
+      </div>
+      <h1 class="hero-headline">
+        Tasty stir fry food<br/>Delivered to Your<br/>
+        <span class="accent">Doorstep in Lagos</span>
+      </h1>
+      <p class="hero-sub">
+        Lagos Mainland's Finest Stir-Fry Spaghetti-Fresh daily plates,generous portions,fast delivery. Hot sauce,loaded,and delivered sharp sharp!
+      </p>
+      <div class="hero-actions">
+        <a href="#products" class="btn-primary"><i class="fas fa-basket-shopping"></i> Buy Now</a>
+        <a href="#about"    class="btn-outline"><i class="fas fa-circle-play"></i> Our Story</a>
+      </div>
+    </div>
+  </div>
+<!-- 
+  <div class="hero-stats" aria-label="Key business highlights">
+    <div class="container">
+      <div class="hero-stats-inner">
+        <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Happy Customers</div></div>
+        <div class="stat-item"><div class="stat-num">30+</div><div class="stat-label">Product Lines</div></div>
+        <div class="stat-item"><div class="stat-num">24h</div><div class="stat-label">Fast Delivery</div></div>
+        <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Quality Guaranteed</div></div>
+      </div>
+    </div>
+  </div> -->
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MARQUEE STRIP
+═══════════════════════════════════════════════════════════════ -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item"><i class="fas fa-truck-fast"></i> Same-Day Delivery in Lagos</span>
+    <span class="marquee-item"><i class="fas fa-seedling"></i> Fresh &amp; Locally Sourced</span>
+    <span class="marquee-item"><i class="fas fa-tags"></i> Unbeatable Prices</span>
+    <span class="marquee-item"><i class="fas fa-heart"></i>  Community-Loved</span>
+    <span class="marquee-item"><i class="fab fa-whatsapp"></i> Easy WhatsApp Ordering</span>
+    <span class="marquee-item"><i class="fas fa-shield-halved"></i> Trusted Quality Always</span>
+    <span class="marquee-item"><i class="fas fa-pepper-hot"></i> Rich Nigerian Flavours</span>
+    <!-- duplicate set for seamless loop -->
+    <span class="marquee-item"><i class="fas fa-truck-fast"></i> Same-Day Delivery in Lagos</span>
+    <span class="marquee-item"><i class="fas fa-seedling"></i> Fresh &amp; Locally Sourced</span>
+    <span class="marquee-item"><i class="fas fa-tags"></i> Unbeatable Prices</span>
+    <span class="marquee-item"><i class="fas fa-heart"></i> Family-Owned, Community-Loved</span>
+    <span class="marquee-item"><i class="fab fa-whatsapp"></i> Easy WhatsApp Ordering</span>
+    <span class="marquee-item"><i class="fas fa-shield-halved"></i> Trusted Quality Always</span>
+    <span class="marquee-item"><i class="fas fa-pepper-hot"></i> Rich Nigerian Flavours</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PRODUCTS
+═══════════════════════════════════════════════════════════════ -->
+<section id="products" aria-labelledby="products-heading">
+  <div class="container">
+
+    <div class="products-header reveal">
+      <div>
+        <span class="section-tag"><i class="fas fa-bowl-food"></i>Our Hot Bowls</span>
+        <h2 id="products-heading" class="section-title">Hot Stir-Fry Spaghetti<br/>Loaded Saucy</h2>
+        <p class="section-subtitle">Fresh daily spaghetti bowls, generous protein, spicy sauce & golden -made Lagos Mainland style, priced sharp sharp for you to chop.</p>
+      </div>
+      <a href="https://wa.me/+2348109004517?text=Hi!%20I%20%20to%20see%20your%20full%20catalogue."
+         class="btn-primary" target="_blank" rel="noopener noreferrer" style="white-space:nowrap;flex-shrink:0;">
+        <i class="fab fa-whatsapp"></i> Full Menu
+      </a>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Card 1 — Premium Rice -->
+      <article class="product-card reveal" aria-label="Product: Premium Parboiled Rice">
+        <div class="product-img-wrap">
+          <!-- ===== REPLACE src="" WITH YOUR RICE PRODUCT IMAGE URL ===== -->
+          <img src="Images/spag-with-plantain.png" alt="spag-with-plantain" loading="lazy"/>
+          <span class="product-badge"><i class="fas fa-star"></i>Best Seller</span>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Spag with and chicken and turkey</h3>
+          <p class="product-desc">Stir fry spaghetti and chicken with dodo. Aromatic and Tasty spaghetti that will elevate your mood.</p>
+          <div class="product-footer">
+            <div class="product-price">₦3,500<span>Per pack</span></div>
+            <a href="https://wa.me/+2348109004517?text=Hi!%20I%27m%20interested%20in%20ordering%20Spag%20and%20plantain."
+               class="btn-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Order rice on WhatsApp">
+              <i class="fab fa-whatsapp"></i>Order
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 — Spaghetti -->
+      <article class="product-card reveal" aria-label="Product: Golden Spaghetti">
+        <div class="product-img-wrap">
+          <!-- ===== REPLACE src="" WITH YOUR SPAGHETTI IMAGE URL ===== -->
+          <img src="Images/spag-with-beef.png" alt="spag-with-beef" loading="lazy"/>
+          <span class="product-badge"><i class="fas fa-fire"></i>Popular</span>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Spag with Hot Dogs and Beef</h3>
+          <p class="product-desc">Stir fry spaghetti with Beef. Exquiste flavours and Tasty spaghetti that will make you bite your tongue, and beef which it  sauce slides into your mouth.</p>
+          <div class="product-footer">
+            <div class="product-price">₦3,500<span>Per pack</span></div>
+            <a href="https://wa.me/+2348109004517?text=Hi!%20I%27m%20interested%20in%20ordering%20Spag%20and%20beef."
+               class="btn-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Order spaghetti on WhatsApp">
+              <i class="fab fa-whatsapp"></i>Order
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 — Cooking Oil -->
+      <article class="product-card reveal" aria-label="Product: Refined Vegetable Oil">
+        <div class="product-img-wrap">
+          <!-- ===== REPLACE src="" WITH YOUR OIL IMAGE URL ===== -->
+          <img src="Images/stir-fry-spag.jpg" alt="stir-fry-spag" loading="lazy"/>
+          <span class="product-badge"><i class="fas fa-percent"></i>Value Pack</span>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name"> Spag with Vegetables</h3>
+          <p class="product-desc">Spicy spaghetti mixed healthy and tasty vegetables to give you an healthy and tasty meal.</p>
+          <div class="product-footer">
+            <div class="product-price">₦2,800<span>Per pack</span></div>
+            <a href="https://wa.me/+2348109004517?text=Hi!%20I%27m%20interested%20in%20ordering%20Stir%20Fry%20Spag."
+               class="btn-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Order cooking oil on WhatsApp">
+              <i class="fab fa-whatsapp"></i>Order
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 — Honey Beans -->
+      <article class="product-card reveal" aria-label="Product: Honey Beans (Oloyin)">
+        <div class="product-img-wrap">
+          <!-- ===== REPLACE src="" WITH YOUR BEANS IMAGE URL ===== -->
+          <img src="Images/turkey-with-stir-fry-spag.jpg" alt="turkey-with-stir-fry-spag" loading="lazy"/>
+          <span class="product-badge"><i class="fas fa-leaf"></i>Local Fave</span>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Spag with grilled turkey</h3>
+          <p class="product-desc">Sweet, tasty and grilled turkey with our delighted and tasty spaghetti.</p>
+          <div class="product-footer">
+            <div class="product-price">₦2,800<span>Per pack</span></div>
+            <a href="https://wa.me/+2348109004517?text=Hi!%20I%27m%20interested%20in%20ordering%20Spag%20and%20turkey."
+               class="btn-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Order beans on WhatsApp">
+              <i class="fab fa-whatsapp"></i>Order
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 — Canned Goods -->
+      <article class="product-card reveal" aria-label="Product: Canned Goods Bundle">
+        <div class="product-img-wrap">
+          <!-- ===== REPLACE src="" WITH YOUR CANNED GOODS IMAGE URL ===== -->
+          <img src="Images/party-jollof.jpg" alt="party-jollof" loading="lazy"/>
+          <span class="product-badge"><i class="fas fa-box-open"></i>Bundle Deal</span>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Party Jollof rice and turkey</h3>
+          <p class="product-desc">Long-grain, aromatic, perfect for jollof, fried rice & soups. Sourced directly from local farms.</p>
+          <div class="product-footer">
+            <div class="product-price">₦3,500<span>Per pack</span></div>
+            <a href="https://wa.me/+2348109004517?text=Hi!%20I%27m%20interested%20in%20ordering%20the%20party%20Jollof%20and%20turkey."
+               class="btn-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Order canned goods on WhatsApp">
+              <i class="fab fa-whatsapp"></i>Order
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════════════════════════ -->
+<section id="about" aria-labelledby="about-heading">
+  <div class="container">
+    <div class="about-grid">
+
+      <!-- Image block (hidden on mobile via CSS) -->
+      <div class="about-img-block reveal">
+        <div class="about-main-img">
+          <!-- ===== REPLACE src="" WITH YOUR ABOUT SECTION IMAGE ===== -->
+          <img src="Images/image-26.jpg" alt="La Spag team members serving customers with fresh produce" loading="lazy"/>
+        </div>
+        <div class="about-accent-img">
+          <!-- ===== OPTIONAL — e.g. close-up of fresh tomatoes or stew ===== -->
+          <img src="Images/image-26.jpg" alt="Close-up of rich tomato stew ingredients" loading="lazy"/>
+        </div>
+        <div class="about-badge-card">
+          <div class="about-badge-num">3+</div>
+          <div class="about-badge-text">Years Serving Lagos</div>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="about-text reveal">
+        <span class="section-tag section-tag-light"><i class="fas fa-store"></i>Who We Are</span>
+        <h2 id="about-heading" class="section-title section-title-light">
+          Your Trusted Local<br/>Food Plug
+        </h2>
+        <p class="about-body">
+          La Spag is a poppular Lagos-based food spot specializing in delicious,loaded <strong>stir-fry-spaghetti</strong> and other fast-casuals meals. Operating mainly on the 
+          Lagos Mainland (with spots like Isolo and Amuwo-Odofin), it's known as a go-to for fresh pasta bowls, street-food style daily plates, and hearty combos featuring grilled chicken, turkey, plantain(dodo), and rich, flavourful sauces that gomway beyond basic spaghetti.
+        </p>
+        <p class="about-body">
+          Whether it's our signature sausage-infused spag,turkey specials, or affordable plates that hit the spot, La Spag has become a vibe for foodies craving something tasty, quick, and far from ordinary
+        </p>
+
+        <div class="about-values" role="list">
+          <div class="value-item" role="listitem">
+            <div class="value-icon"><i class="fas fa-seedling"></i></div>
+            <div class="value-text"><strong>Freshness First</strong><p>Only produce meeting our strict freshness standards — always.</p></div>
+          </div>
+          <div class="value-item" role="listitem">
+            <div class="value-icon"><i class="fas fa-handshake"></i></div>
+            <div class="value-text"><strong>Tasty Partnerships</strong><p>Sourced from Nigerian farmers to support our community.</p></div>
+          </div>
+          <div class="value-item" role="listitem">
+            <div class="value-icon"><i class="fas fa-tag"></i></div>
+            <div class="value-text"><strong>Fair Pricing</strong><p>Transparent, no-hidden-fee prices that keep families well-fed.</p></div>
+          </div>
+          <div class="value-item" role="listitem">
+            <div class="value-icon"><i class="fas fa-truck-fast"></i></div>
+            <div class="value-text"><strong>Fast Delivery</strong><p>Lagos-wide same-day delivery so you never run short.</p></div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/+2348109004517?text=Hi!%20I%27d%20like%20to%20know%20more%20about%20LaSpag."
+           class="btn-primary" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-whatsapp"></i> Chat With Us
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════════════════════════════ -->
+<section id="contact" aria-labelledby="contact-heading">
+  <div class="container">
+
+    <div style="text-align:center;margin-bottom:56px;" class="reveal">
+      <span class="section-tag"><i class="fas fa-envelope"></i>Get In Touch</span>
+      <h2 id="contact-heading" class="section-title">We'd Love to Hear From You</h2>
+      <p class="section-subtitle" style="margin:0 auto;">
+        Question, bulk order enquiry, or just want to say hello? Reach us through any channel below — we're always ready to help.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+
+      <!-- LEFT: Contact details card -->
+      <div class="contact-card reveal">
+        <h3 class="contact-card-title"><i class="fas fa-address-book"></i>Contact Details</h3>
+
+        <!-- Address -->
+        <div class="contact-row">
+          <div class="c-icon"><i class="fas fa-location-dot"></i></div>
+          <div class="c-info">
+            <strong><i class="fas fa-map-pin" style="margin-right:4px;"></i>Our Location</strong>
+            <!-- ===== REPLACE with your real address ===== -->
+            <p>21 James Oni St,Isolo,<br/>Lagos 102214, Nigeria</p>
+          </div>
+        </div>
+        <div class="c-divider"></div>
+
+        <!-- Phone -->
+        <div class="contact-row">
+          <div class="c-icon"><i class="fas fa-phone-flip"></i></div>
+          <div class="c-info">
+            <strong><i class="fas fa-mobile-screen-button" style="margin-right:4px;"></i>Phone &amp; WhatsApp</strong>
+            <!-- ===== REPLACE with your real phone number ===== -->
+            <p>
+              <a href="tel:+2348109004517">+234 810 900 4517</a>
+              &ensp;
+              <a href="https://wa.me/+2348109004517" target="_blank" rel="noopener noreferrer" class="wa-inline">
+                <i class="fab fa-whatsapp"></i> WhatsApp us
+              </a>
+            </p>
+          </div>
+        </div>
+        <div class="c-divider"></div>
+
+        <!-- Email -->
+        <div class="contact-row">
+          <div class="c-icon"><i class="fas fa-envelope-open-text"></i></div>
+          <div class="c-info">
+            <strong><i class="fas fa-at" style="margin-right:4px;"></i>Email Address</strong>
+            <!-- ===== REPLACE with your real email ===== -->
+            <p><a href="mailto:laspag@gmail.com">laspag@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="c-divider"></div>
+
+        <!-- Instagram -->
+        <div class="contact-row">
+          <div class="c-icon" style="background:radial-gradient(circle at 30% 110%,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">
+            <i class="fab fa-instagram"></i>
+          </div>
+          <div class="c-info">
+            <strong><i class="fas fa-camera-retro" style="margin-right:4px;"></i>Instagram</strong>
+            <!-- ===== REPLACE handle ===== -->
+            <p><a href="https://www.instagram.com/businesshandle" target="_blank" rel="noopener noreferrer">@la_spagheti</a></p>
+          </div>
+        </div>
+        <div class="c-divider"></div>
+
+        <!-- TikTok -->
+        <div class="contact-row">
+          <div class="c-icon" style="background:#010101;">
+            <i class="fab fa-tiktok"></i>
+          </div>
+          <div class="c-info">
+            <strong><i class="fas fa-video" style="margin-right:4px;"></i>TikTok</strong>
+            <!-- ===== REPLACE handle ===== -->
+            <p><a href="https://www.tiktok.com/@businesshandle" target="_blank" rel="noopener noreferrer">@la_spagheti</a></p>
+          </div>
+        </div>
+
+        <!-- Map placeholder -->
+        <div class="map-placeholder" role="img" aria-label="Map placeholder – add Google Maps iframe here">
+          <i class="fas fa-map-location-dot"></i>
+          <!-- ===== REPLACE THIS ENTIRE div CONTENT with a Google Maps <iframe> embed code =====
+          <iframe src="https://www.google.com/maps/embed?pb=YOUR_CODE"
+            width="100%" height="240" style="border:0;" allowfullscreen=""
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="NaijaFresh on Google Maps"></iframe>
+          ===== END MAP EMBED ===== -->
+          <p><i class="fas fa-code"></i> &nbsp;Paste your Google Maps embed here</p>
+        </div>
+
+        <!-- Social buttons row -->
+        <div class="contact-socials">
+          <div class="contact-socials-label">
+            <i class="fas fa-share-nodes"></i> Find Us On Social Media
+          </div>
+          <div class="contact-socials-row">
+            <!-- ===== REPLACE all href URLs with your real profiles ===== -->
+            <a href="https://www.instagram.com/la_spagheti"
+               class="cs-btn cs-ig" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="https://www.tiktok.com/@la_spagheti"
+               class="cs-btn cs-tt" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+              <i class="fab fa-tiktok"></i> TikTok
+            </a>
+            <a href="https://www.facebook.com/la_spagheti"
+               class="cs-btn cs-fb" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i> Facebook
+            </a>
+            <!-- <a href="https://www.twitter.com/businesshandle"
+               class="cs-btn cs-tw" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
+              <i class="fab fa-x-twitter"></i> Twitter
+            </a> -->
+            <a href="https://www.linkedin.com/company/la_spagheti"
+               class="cs-btn cs-li" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="https://www.youtube.com/@la_spagheti"
+               class="cs-btn cs-yt" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <i class="fab fa-youtube"></i> YouTube
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /contact-card -->
+
+      <!-- RIGHT: Hours + WhatsApp CTA -->
+      <div>
+        <div class="hours-card reveal">
+          <h3 class="hours-title"><i class="fas fa-clock"></i> Opening Hours</h3>
+          <div class="hours-row">
+            <span class="day"><i class="fas fa-calendar-week"></i>Mon – Fri</span>
+            <span class="time">8:00 AM – 8:00 PM</span>
+            <span class="open-tag">Open</span>
+          </div>
+          <div class="hours-row">
+            <span class="day"><i class="fas fa-calendar-day"></i>Saturday</span>
+            <span class="time">7:00 AM – 9:00 PM</span>
+            <span class="open-tag">Open</span>
+          </div>
+          <div class="hours-row">
+            <span class="day"><i class="fas fa-church"></i>Sunday</span>
+            <span class="time">10:00 AM – 5:00 PM</span>
+            <span class="open-tag">Open</span>
+          </div>
+          <div class="hours-row">
+            <span class="day"><i class="fas fa-flag"></i>Public Holidays</span>
+            <span class="time">10:00 AM – 4:00 PM</span>
+            <span class="open-tag">Open</span>
+          </div>
+        </div>
+
+        <div class="wa-cta-block reveal">
+          <i class="fab fa-whatsapp wa-icon-big"></i>
+          <p>
+            The fastest way to order — send us a WhatsApp message!<br/>
+            We respond within minutes during business hours.
+          </p>
+          <a href="https://wa.me/+2348109004517?text=Hi%20LaSpag!%20I%27d%20like%20to%20place%20an%20order."
+             class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp"></i> Message Us on WhatsApp
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════════ -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+
+      <!-- Brand column -->
+      <div class="footer-brand">
+        <div class="footer-logo-img">
+          <!-- ===== REPLACE src="" WITH YOUR LOGO IMAGE URL ===== -->
+          <img src="Images/La-spag-Logo.jpg" alt="La Spag logo " />
+        </div>
+        <span class="footer-brand-name">La<span>Spag</span></span>
+        <p>Tasty stir-fry-spaghetti for Nigerian families — locally sourced, affordably priced, and delivered with love straight to your doorstep in Lagos.</p>
+
+        <!-- Social icon row -->
+        <nav class="social-row" aria-label="Social media links">
+          <!-- ===== REPLACE all href URLs with your real profiles ===== -->
+          <a href="https://www.instagram.com/la_spagheti"  class="soc soc-ig" target="_blank" rel="noopener noreferrer" aria-label="Instagram"  title="Instagram"><i class="fab fa-instagram"   aria-hidden="true"></i></a>
+          <a href="https://www.tiktok.com/la_spagheti"   class="soc soc-tt" target="_blank" rel="noopener noreferrer" aria-label="TikTok"     title="TikTok">   <i class="fab fa-tiktok"      aria-hidden="true"></i></a>
+          <a href="https://www.facebook.com/la_spagheti"  class="soc soc-fb" target="_blank" rel="noopener noreferrer" aria-label="Facebook"   title="Facebook">  <i class="fab fa-facebook-f"  aria-hidden="true"></i></a>
+          <!-- <a href="https://www.twitter.com/businesshandle"   class="soc soc-tw" target="_blank" rel="noopener noreferrer" aria-label="X/Twitter"  title="X/Twitter"> <i class="fab fa-x-twitter"   aria-hidden="true"></i></a> -->
+          <a href="https://www.linkedin.com/company/la_spagheti" class="soc soc-li" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"  title="LinkedIn">  <i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+          <a href="https://www.youtube.com/la_spagheti"  class="soc soc-yt" target="_blank" rel="noopener noreferrer" aria-label="YouTube"    title="YouTube">   <i class="fab fa-youtube"     aria-hidden="true"></i></a>
+          <a href="https://wa.me/+2348109004517"             class="soc soc-wa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"   title="WhatsApp">  <i class="fab fa-whatsapp"    aria-hidden="true"></i></a>
+        </nav>
+      </div>
+
+      <!-- Quick links -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul role="list">
+          <li><a href="#home">    <i class="fas fa-chevron-right"></i>Home</a></li>
+          <li><a href="#products"><i class="fas fa-chevron-right"></i>Products</a></li>
+          <li><a href="#about">   <i class="fas fa-chevron-right"></i>About Us</a></li>
+          <li><a href="#contact"> <i class="fas fa-chevron-right"></i>Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Products links -->
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul role="list">
+          <li><a href="#products"><i class="fas fa-chevron-right"></i>Spag with and chicken and turkey</a></li>
+          <li><a href="#products"><i class="fas fa-chevron-right"></i>Spag with Hot Dogs and Beef</a></li>
+          <li><a href="#products"><i class="fas fa-chevron-right"></i>Spag with Vegetables</a></li>
+          <li><a href="#products"><i class="fas fa-chevron-right"></i>Spag with grilled turkey</a></li>
+          <li><a href="#products"><i class="fas fa-chevron-right"></i>Party Jollof rice and turkey</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact info column -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <!-- ===== REPLACE all contact details below ===== -->
+        <div class="f-contact-item"><i class="fas fa-location-dot"></i><span>21 James Oni St,Isolo,Lagos 102214,Nigeria</span></div>
+        <div class="f-contact-item"><i class="fas fa-phone-flip"></i><a href="tel:+2348109004517">+234 810 900 4517</a></div>
+        <div class="f-contact-item"><i class="fas fa-envelope"></i><a href="mailto:laspag@gmail.com">laspag@gamil.com</a></div>
+        <div class="f-contact-item"><i class="fab fa-whatsapp" style="color:#25D366;"></i><a href="https://wa.me/+2348109004517" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></div>
+        <div class="f-contact-item"><i class="fab fa-instagram"></i><a href="https://www.instagram.com/la_spagheti" target="_blank" rel="noopener noreferrer">@la_spagheti</a></div>
+        <div class="f-contact-item"><i class="fab fa-tiktok"></i><a href="https://www.tiktok.com/@la_spagheti" target="_blank" rel="noopener noreferrer">@la_spagheti</a></div>
+      </div>
+
+    </div><!-- /footer-grid -->
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p>
+        &copy; <span id="year"></span> La Spag. All rights reserved.
+        &nbsp;<i class="fas fa-heart" style="color:var(--red-bright);"></i>&nbsp;
+        Made with love in Lagos.
+      </p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════════ -->
+<script>
+  "use strict";
+
+  /* 1 – Copyright year */
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* 2 – Navbar scroll state */
+  const navbar = document.getElementById('navbar');
+  const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* 3 – Mobile hamburger */
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu   = document.getElementById('mobileMenu');
+  hamburgerBtn.addEventListener('click', () => {
+    const open = hamburgerBtn.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    hamburgerBtn.setAttribute('aria-expanded', String(open));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    hamburgerBtn.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+  }));
+
+  /* 4 – Scroll-reveal */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
+      entry.target.style.transitionDelay = `${siblings.indexOf(entry.target) * 0.09}s`;
+      entry.target.classList.add('visible');
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* 5 – Smooth anchor scroll */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+    });
+  });
+
+  /* 6 – Active nav highlight */
+  document.querySelectorAll('section[id]').forEach(section => {
+    new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        document.querySelectorAll('.nav-links a[href^="#"]').forEach(a => {
+          a.style.color = a.getAttribute('href') === '#' + entry.target.id ? 'var(--gold-light)' : '';
+        });
+      });
+    }, { threshold: 0.45 }).observe(section);
+  });
+</script>
+
+</body>
+</html>
